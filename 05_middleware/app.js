@@ -1,6 +1,6 @@
 import express from "express";
 import helmet from "helmet";
-import HttpError from "./middleware/httpsError.js";
+import HttpError from "./middleware/httpError.js";
 import checkRoll from "./middleware/checkRoll.js";
 
 const app = express();
