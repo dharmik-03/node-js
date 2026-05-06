@@ -1,4 +1,5 @@
 import express from "express";
+import httpError from "./middleware/httpError.js";
 
 const app = express();
 
@@ -14,7 +15,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/taskList", (req, res) => {
+  if (taskList.length === 0) {
+    return res.status(200).json({
+      message: "Task not available",
+    });
+  }
+
   res.status(200).json({ success: true, message: "task list", taskList });
+});
+
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    message: err.message || "Internal Server Error",
+  });
 });
 
 const port = 5000;
