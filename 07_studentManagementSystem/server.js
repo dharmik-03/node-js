@@ -3,6 +3,7 @@ import httpError from "./middlewares/httpError.js";
 import connectDB from "./config/db.js";
 
 const app = express();
+app.use(express.json())
 
 app.get("/", (req, res) => {
   res.send("hello from server");
@@ -26,7 +27,7 @@ const port = 5000;
 
 async function server() {
   try {
-    const connect = await connectDB;
+    const connect = await connectDB();
 
     if (!connect) {
       throw new Error("failed to connect DB");
