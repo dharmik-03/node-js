@@ -1,6 +1,6 @@
 import express from "express";
 import httpError from "./middlewares/httpError.js";
-import mongoose from "./config/db.js";
+import connectDB from "./config/db.js";
 
 const app = express();
 
@@ -24,10 +24,24 @@ app.use((Error, req, res, next) => {
 
 const port = 5000;
 
-app.listen(port, (err) => {
-  if (err) {
-    return console.log(err.message);
-  }
+async function server() {
+  try {
+    const connect = await connectDB;
 
-  console.log(`server is running on port ${port}`);
-});
+    if (!connect) {
+      throw new Error("failed to connect DB");
+    }
++
+    app.listen(port, (err) => {
+      if (err) {
+        return console.log(err.message);
+      }
+
+      console.log(`server is running on port ${port}`);
+    });
+  } catch (error) {
+    console.log(error.message);
+    process.exit(1);
+  }
+}
+server()
