@@ -46,7 +46,7 @@ async function server() {
 
         const connect = await dbConnect()
 
-        if (!dbConnect) {
+        if (!connect) {
             throw new Error("failed to connect DB")
         }
 
@@ -55,7 +55,7 @@ async function server() {
                 return console.log(err.message)
             }
 
-            console.log(`server is running onn port ${port}`)
+            console.log(`server is running on port ${port}`)
         })
 
 

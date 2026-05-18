@@ -41,8 +41,43 @@ async function getAllStudent(req, res, next) {
         AllStudentsData,
       });
   } catch (error) {
-    next(new httpError(error.message,500))
+    next(new httpError(error.message, 500))
   }
 }
 
-export  { AddStudent,getAllStudent};
+
+
+async function Deletes(req, res, next) {
+
+  try {
+
+    const { GRid } = req.params
+
+
+    const find = await student.findOne({ GRid })
+
+    if (!find) {
+      return res.status(404)
+        .json({ success: false, message: "no student found with this GR ID" })
+    }
+
+
+
+    await student.deleteOne({ GRid })
+
+    res.status(200).json({
+      success: true,
+      message: "Student deleted successfully",
+    });
+
+
+  } catch (error) {
+    next(new httpError(error.message, 500))
+
+  }
+
+
+}
+
+
+export { AddStudent, getAllStudent, Deletes };
