@@ -36,7 +36,7 @@ async function server() {
     if (!connect) {
       throw new Error("failed to connect DB");
     }
-
+      
     app.listen(port, (err) => {
       if (err) {
         return console.log(err.message);
