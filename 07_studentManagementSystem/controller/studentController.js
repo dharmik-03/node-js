@@ -45,6 +45,29 @@ async function getAllStudent(req, res, next) {
   }
 }
 
+async function StudentFind(req, res, next) {
+
+
+  try {
+    const id = req.params.id
+
+    const studentWithId = await student.findById(id)
+
+    if (!studentWithId) {
+      res.status(404)
+        .json({ success: false, message: "no student found with this id" })
+    }
+
+
+    res.status(200)
+      .json({ succces: true, message: "student found", studentWithId })
+
+  } catch (error) {
+    next(new httpError("invalid id", 404))
+  }
+
+}
+
 async function Delete(req, res, next) {
 
   try {
@@ -73,4 +96,21 @@ async function Delete(req, res, next) {
 
 }
 
-export default { AddStudent, getAllStudent,Delete };
+async function updateById(req, res, next) {
+
+  const id = req.params.id
+
+
+  const findStudent = await student.findByIdAndUpdate(id, req.body, { new: true })
+
+  if (!findStudent) {
+
+    return next(new httpError("no student found with this id", 404))
+
+  }
+
+  res.status(200)
+    .json({ succces: true, message: "student data update successfully", findStudent })
+}
+
+export default { AddStudent, getAllStudent, Delete, StudentFind, updateById };
