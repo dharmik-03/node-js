@@ -64,18 +64,23 @@ It allows users to manage employee records easily with REST APIs.
 
 <img width="1913" height="1022" alt="Screenshot 2026-05-20 183721" src="https://github.com/user-attachments/assets/b478b9a0-1d71-4501-b1cd-9dd44d34ed21" />
 <br>
+..............
 <br>
 <img width="1917" height="1022" alt="Screenshot 2026-05-20 183733" src="https://github.com/user-attachments/assets/7964d309-c37e-45a7-8ae5-785485445c85" />
 <br>
+..............
 <br>
 <img width="1884" height="826" alt="Screenshot 2026-05-20 183751" src="https://github.com/user-attachments/assets/dcde7228-d61f-4b16-a812-40477ffe3e15" />
 <br>
+..............
 <br>
 <img width="817" height="654" alt="Screenshot 2026-05-20 183917" src="https://github.com/user-attachments/assets/30e31795-1c6a-4783-a13a-55b9ca499fbe" />
 <br>
+..............
 <br>
 <img width="808" height="856" alt="Screenshot 2026-05-20 183927" src="https://github.com/user-attachments/assets/a560c69c-da25-4ef0-9bd4-311d05e36a3f" />
-
+<br>
+..............
 
 
 
