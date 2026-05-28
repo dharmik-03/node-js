@@ -15,8 +15,8 @@ const storage = multer.diskStorage({
       foldername += "EventBanner"
     } else if (file.fieldname === "EventSpeaker") {
       foldername += "EventSpeaker"
-    } else if (file.fieldname === "EventSpeaker") {
-      foldername += "EventSpeaker"
+    } else if (file.fieldname === "EventDocument") {
+      foldername += "EventDocument"
     } else {
       foldername += "others"
     }
