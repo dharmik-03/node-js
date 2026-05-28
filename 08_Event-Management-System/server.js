@@ -2,12 +2,14 @@ import express from "express";
 import httpError from "./middlewares/httpError.js";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
+
+import router from "./routes/eventRoute.js";
 dotenv.config({ path: "./.env" });
 
 const app = express();
 
 app.use(express.json());
-
+app.use("/event", router)
 app.get("/", (req, res, next) => {
   res.json({ message: "hello from server" });
 });

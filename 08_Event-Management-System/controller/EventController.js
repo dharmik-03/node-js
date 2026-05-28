@@ -16,9 +16,9 @@ const create = async (req, res, next) => {
     } = req.body;
 
     const EventPoster = req.files?.EventPoster?.[0]?.path || null
-    const EventBanner = req.files?.EventBanner?.map((file) => file.path) || null
-    const EventSpeaker = req.files?.EventSpeaker?.map((file) => file.path) || null
-    const EventDocument = req.files?.EventDocument?.[0] || null
+    const EventBanner = req.files?.EventBanner?.map((file) => file.path) || []
+    const EventSpeaker = req.files?.EventSpeaker?.map((file) => file.path) || []
+    const EventDocument = req.files?.EventDocument?.[0]?.path || null
 
     const NewEvent = new event({
       EventName,
@@ -33,9 +33,9 @@ const create = async (req, res, next) => {
     });
 
 
-    await event.save()
+    await NewEvent.save()
 
-    res.status(201).json({ success: true, message: "new event added" }, NewEvent)
+    res.status(201).json({ success: true, message: "new event added", data: NewEvent })
 
   } catch (error) {
 

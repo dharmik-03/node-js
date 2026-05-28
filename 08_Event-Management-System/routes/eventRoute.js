@@ -7,7 +7,7 @@ import controller from "../controller/EventController.js"
 
 const router = express.Router()
 
-router.post("add",
+router.post("/add",
     upload.fields([
         {
             name: "EventPoster",
@@ -22,9 +22,10 @@ router.post("add",
             maxCount: 5,
         },
         {
-            name: EventDocument,
+            name: "EventDocument",
             maxCount: 5
         }
     ]),
-    controller.createProfile
+    controller.create
 )
+export default router
