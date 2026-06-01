@@ -4,6 +4,7 @@ import upload from "../middlewares/upload.js";
 import httpError from "../middlewares/httpError.js";
 
 import controller from "../controller/EventController.js";
+import event from "../model/eventModel.js";
 
 const router = express.Router();
 
@@ -29,4 +30,9 @@ router.post(
   ]),
   controller.create,
 );
+
+router.get("/getEvent",controller.getAllEvent)
+router.get("/:id",controller.GetEventById)
+
+router.delete("/:id",controller.DeleteById)
 export default router;
