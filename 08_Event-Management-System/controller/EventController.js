@@ -80,37 +80,31 @@ const DeleteById = async (req, res, next) => {
 
   try {
     const id = req.params.id
-    const eventbyid = await event.findById(id)
+    const deletebyid = await event.findById(id)
 
-    if (!eventbyid) {
+    if (!deletebyid) {
       return next(new HttpError("event not found", 404));
     }
 
 
-    if (eventbyid.EventPoster) {
-      fs.unlinkSync(eventbyid.EventPoster)
-    }
+    const filesToDelete = [
+      deletebyid.EventPoster,
+      ...deletebyid.EventBanner,
+      ...deletebyid.EventSpeaker,
+      deletebyid.EventDocument
 
+    ]
 
-    if (eventbyid.EventBanner && eventbyid.EventBanner.length > 0) {
-      eventbyid.EventBanner.forEach((banner) => {
-        fs.unlinkSync(banner)
-      })
-    }
+    filesToDelete.forEach((file) => {
+      if (fs.existsSync(file)) {
+        fs.unlinkSync(file)
+      } else {
+        return next(new httpError("failed to delete"))
+      }
+    })
 
-    if (eventbyid.EventSpeaker && eventbyid.EventSpeaker.length > 0) {
-      eventbyid.EventSpeaker.forEach((speaker) => {
-        fs.unlinkSync(speaker)
-      })
-    }
+    const deleteEvent = await event.findByIdAndDelete(id)
 
-    if (eventbyid.EventDocument) {
-
-      fs.unlinkSync(eventbyid.EventDocument)
-
-    }
-
-    await eventbyid.deleteOne();
 
     res.status(200)
       .json({ success: true, message: "event deleted successfully" })
