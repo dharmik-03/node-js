@@ -5,11 +5,16 @@ import dotenv from "dotenv"
 dotenv.config({ path: "./.env" })
 
 import connectDB from "./config/db.js"
+import packageRouter from "./routes/packageRoutes.js"
 
 
 
 
 const app = express()
+
+app.use(express.json());
+
+app.use("/package", packageRouter);
 
 app.get("/", (req, res, next) => {
 
