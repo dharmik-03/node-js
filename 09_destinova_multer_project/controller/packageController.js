@@ -51,4 +51,21 @@ const GetAllPackage = async (req, res, next) => {
   }
 };
 
-export default { add ,GetAllPackage};
+const GetById = async (req, res, next) => {
+  try {
+    const {id}=req.params
+    const Package = await Packages.findById(id);
+
+    if (!Package) {
+      return res
+        .status(404)
+        .json({ success: false, message: "package not found" });
+    }
+
+    res.status(200).json({ success: true, message: "package found", Package });
+  } catch (error) {
+    throw next(new httpError(error.message));
+  }
+};
+
+export default { add ,GetAllPackage,GetById};

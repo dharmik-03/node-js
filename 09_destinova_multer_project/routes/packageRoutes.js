@@ -7,5 +7,6 @@ const router = express.Router();
 
 router.post("/add", upload.single("image"), packageController.add);
 router.get("/GetAllPackage",packageController.GetAllPackage)
+router.get("/:id",packageController.GetById)
 
 export default router;
