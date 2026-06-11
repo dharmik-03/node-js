@@ -17,7 +17,7 @@ const Add = async (req, res, next) => {
 
     await newUser.save();
 
-    res.status(200).json({ success: true, message: "new user added" });
+    res.status(200).json({ success: true, message: "new user added" ,newUser});
   } catch (error) {
     return next(new httpError(error.message, 500));
   }
