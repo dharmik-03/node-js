@@ -75,5 +75,5 @@ const AuthLoggin = async function (req, res, next) {
     next(new httpError(error.message));
   }
 };
-
-export default { Add, GetAllUser, loggin };
+  
+export default { Add, GetAllUser, loggin,AuthLoggin };
