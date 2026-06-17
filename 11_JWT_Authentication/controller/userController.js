@@ -1,6 +1,8 @@
 import httpError from "../middleware/httpError.js";
 import userModel from "../model/userModel.js";
 
+//user add 
+
 const Add = async (req, res, next) => {
   try {
     const { name, Email, password } = req.body;
@@ -23,6 +25,8 @@ const Add = async (req, res, next) => {
   }
 };
 
+//get all user
+
 const GetAllUser = async (req, res, next) => {
   try {
     const findUser = await userModel.find();
@@ -41,6 +45,8 @@ const GetAllUser = async (req, res, next) => {
     next(new httpError(error.message));
   }
 };
+
+//loggin user
 
 const loggin = async (req, res, next) => {
   try {
@@ -76,15 +82,17 @@ const AuthLoggin = async function (req, res, next) {
   }
 };
 
+//logout user
+
 const logout = async function (req, res, next) {
   try {
     req.user.tokens = req.user.tokens.filter((t) => t.token != req.token);
 
     await req.user.save();
 
-    console.log("logout 1 - ", req.user);
-    console.log("logout 2 - ", req.user.tokens);
-    console.log("logout 3 - ", req.user.token);
+    // console.log("logout 1 - ", req.user);
+    // console.log("logout 2 - ", req.user.tokens);
+    // console.log("logout 3 - ", req.user.token);
 
     res.status(200).json({
       success: true,
@@ -94,6 +102,8 @@ const logout = async function (req, res, next) {
     next(new httpError(error.message, 500));
   }
 };
+
+//logout from all device
 
 const logutAll = async function (req, res, next) {
   try {
@@ -109,6 +119,8 @@ const logutAll = async function (req, res, next) {
   }
 };
 
+//update user data
+
 const UpdateUser = async function (req, res, next) {
   try {
     const user = req.user;
@@ -119,17 +131,15 @@ const UpdateUser = async function (req, res, next) {
 
     const updates = Object.keys(req.body);
 
-    console.log("1 updates ",updates)
+    // console.log("1 updates ",updates)
 
     const AllowedField = ["name", "password"];
 
-    console.log("2 allowedfield",AllowedField)
-
+    // console.log("2 allowedfield",AllowedField)
 
     const isValid = updates.every((fields) => AllowedField.includes(fields));
 
-    console.log("3 isvalid ",isValid)
-
+    // console.log("3 isvalid ",isValid)
 
     if (!isValid) {
       return next(new httpError("Only allowed fields can be updated", 400));
@@ -139,8 +149,7 @@ const UpdateUser = async function (req, res, next) {
       return (user[update] = req.body[update]);
     });
 
-    console.log("4 updates",updates)
-
+    // console.log("4 updates",updates)
 
     await user.save();
 
@@ -150,11 +159,13 @@ const UpdateUser = async function (req, res, next) {
   }
 };
 
+//delete user
+
 const DeleteUser = async function (req, res, next) {
   try {
     const user = req.user;
 
-    console.log("delete 1 - ",user)
+    // console.log("delete 1 - ",user)
 
     await user.deleteOne();
 
@@ -174,5 +185,5 @@ export default {
   logout,
   logutAll,
   UpdateUser,
-  DeleteUser
+  DeleteUser,
 };
