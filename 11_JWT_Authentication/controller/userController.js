@@ -75,5 +75,104 @@ const AuthLoggin = async function (req, res, next) {
     next(new httpError(error.message));
   }
 };
-  
-export default { Add, GetAllUser, loggin,AuthLoggin };
+
+const logout = async function (req, res, next) {
+  try {
+    req.user.tokens = req.user.tokens.filter((t) => t.token != req.token);
+
+    await req.user.save();
+
+    console.log("logout 1 - ", req.user);
+    console.log("logout 2 - ", req.user.tokens);
+    console.log("logout 3 - ", req.user.token);
+
+    res.status(200).json({
+      success: true,
+      message: "Logout Successfully",
+    });
+  } catch (error) {
+    next(new httpError(error.message, 500));
+  }
+};
+
+const logutAll = async function (req, res, next) {
+  try {
+    req.user.tokens = [];
+
+    await req.user.save();
+
+    res
+      .status(200)
+      .json({ success: true, message: "logout from all Successfully" });
+  } catch (error) {
+    next(new httpError(error.message, 500));
+  }
+};
+
+const UpdateUser = async function (req, res, next) {
+  try {
+    const user = req.user;
+
+    if (!user) {
+      return next(new httpError("No user found", 400));
+    }
+
+    const updates = Object.keys(req.body);
+
+    console.log("1 updates ",updates)
+
+    const AllowedField = ["name", "password"];
+
+    console.log("2 allowedfield",AllowedField)
+
+
+    const isValid = updates.every((fields) => AllowedField.includes(fields));
+
+    console.log("3 isvalid ",isValid)
+
+
+    if (!isValid) {
+      return next(new httpError("Only allowed fields can be updated", 400));
+    }
+
+    updates.forEach((update) => {
+      return (user[update] = req.body[update]);
+    });
+
+    console.log("4 updates",updates)
+
+
+    await user.save();
+
+    res.status(200).json({ success: true, message: "user data updated", user });
+  } catch (error) {
+    next(new httpError(error.message, 500));
+  }
+};
+
+const DeleteUser = async function (req, res, next) {
+  try {
+    const user = req.user;
+
+    console.log("delete 1 - ",user)
+
+    await user.deleteOne();
+
+    res
+      .status(200)
+      .json({ success: true, message: "user deleted successfully" });
+  } catch (error) {
+    next(new httpError(error.message));
+  }
+};
+
+export default {
+  Add,
+  GetAllUser,
+  loggin,
+  AuthLoggin,
+  logout,
+  logutAll,
+  UpdateUser,
+  DeleteUser
+};
