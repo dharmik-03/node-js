@@ -1,36 +1,38 @@
 import mongoose from "mongoose";
 
-const NewSchema = mongoose.Schema({
-
+const NewSchema = mongoose.Schema(
+  {
     packageName: {
-        type: String,
-        required: true,
-        trim: true
+      type: String,
+      required: true,
+      trim: true,
     },
     Date: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     PackageType: {
-        type: String,
-        required: true,
-
+      type: String,
+      required: true,
     },
     packagePrice: {
-        type: String,
-        trim: true,
-        required: true
+      type: String,
+      trim: true,
+      required: true,
     },
     image: {
-        type: String,
-        required: true
-    }
+      type: String,
+      required: true,
+    },
+    cloudinaryid: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-},
-    {
-        Timestamps: true
-    })
+const packages = mongoose.model("package model", NewSchema);
 
-const package = mongoose.model("package model", NewSchema)
-
-export default package
+export default packages;
