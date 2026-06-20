@@ -19,7 +19,7 @@ const auth = async function (req, res, next) {
     console.log("2.token ", token);
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("3.decoded", decoded);
+    // console.log("3.decoded", decoded);
 
     const user = await usermodel.findOne({
       _id: decoded._id,

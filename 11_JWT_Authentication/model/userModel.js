@@ -68,7 +68,7 @@ userScema.statics.findByCredentials = async function (Email, password) {
   }
 };
 
-//auth Token
+//auth Tokens
 
 userScema.methods.generateAuthToken = async function () {
   try {
