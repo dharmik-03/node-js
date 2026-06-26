@@ -1,48 +1,47 @@
 import passport from "passport";
-import passportGoogle from "passport-google-oauth20"
+import googlePassport from "passport-google-oauth20";
 
+import dotenv from "dotenv";
 
-import User from "../model/userModel.js"
+import User from "../model/userModel.js";
+
+dotenv.config({ path: "./.env" });
+
+const googleStrategy = googlePassport.Strategy;
+console.log("CLIENT_ID:", process.env.CLIENT_ID);
+console.log("CLIENT_SECRET:", process.env.CLIENT_SECRET);
 
 passport.use(
-    new GoogleStrategy(
+    new googleStrategy(
         {
-            clientID: process.env.CLIENTID,
-            clientSecret: process.env.CLIENTSECRET,
-            callbackURL: "http://localhost:5000/auth/google/redirect",
+            clientID: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            callbackURL: process.env.CALLBACK_URL,
         },
         async function (accessToken, refreshToken, profile, done) {
-
             try {
-                let user = await User.findOne({ googleId: profile.id });
+                const alreadyUser = await User.findOne({ googleId: profile.id });
 
-                if (!user) {
-                    user = await User.create({
+                console.log("profile", profile)
+
+                if (!alreadyUser) {
+                    const newUser = await User.create({
                         googleId: profile.id,
                         name: profile.displayName,
-                        email: profile.emails[0].value,
+                        email: profile.emails[0]?.value,
                     });
+
+                    done(null, newUser);
                 }
 
-                return done(null, user)
+                done(null, alreadyUser);
+                
             } catch (error) {
-                return done(error, null)
+                console.log(error.message);
             }
+        },
+    ),
+);
 
-        }
-    )
-)
 
-passport.newUser((user, done) => {
-    done(null, user.id)
-})
-
-passport.UniqueUser(async (id, done) => {
-    try {
-
-        const user = await User.findById(id)
-        done(null, user)
-    } catch (error) {
-        done(error, null)
-    }
-})
+export default passport

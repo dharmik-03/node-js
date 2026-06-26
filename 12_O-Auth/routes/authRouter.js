@@ -1,9 +1,29 @@
-import express from "express"
+import express from "express";
+import passport from "../config/passport.js";
 
-const router=express.Router()
+const router = express.Router();
 
-router.get("/login",(req,res,next)=>{
-    res.render("login")
-})
+router.get("/login", (req, res) => {
+    res.render("login");
+});
 
-export default router
+// START GOOGLE LOGIN
+router.get(
+    "/google/login",
+    passport.authenticate("google", {
+        scope: ["profile", "email"],
+    })
+);
+
+// GOOGLE CALLBACK
+router.get(
+    "/google/redirect",
+    passport.authenticate("google", {
+        failureRedirect: "/",
+    }),
+    (req, res) => {
+        res.send("Google Login Successful");
+    }
+);
+
+export default router;
