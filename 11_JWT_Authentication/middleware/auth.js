@@ -27,7 +27,7 @@ const auth = async function (req, res, next) {
     });
 
     console.log("4. user", user);
-
+  
     if (!user) {
       return next(new httpError("authentication failed", 401));
     }
