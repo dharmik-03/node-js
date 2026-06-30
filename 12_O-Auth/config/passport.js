@@ -12,34 +12,35 @@ console.log("CLIENT_ID:", process.env.CLIENT_ID);
 console.log("CLIENT_SECRET:", process.env.CLIENT_SECRET);
 
 passport.use(
-  new googleStrategy(
-    {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: process.env.CALLBACK_URL,
-    },
-    async function (accessToken, refreshToken, profile, done) {
-      try {
-        const alreadyUser = await User.findOne({ googleId: profile.id });
+    new googleStrategy(
+        {
+            clientID: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            callbackURL: process.env.CALLBACK_URL,
+        },
+        async function (accessToken, refreshToken, profile, done) {
+            try {
+                const alreadyUser = await User.findOne({ googleId: profile.id });
 
-        console.log("profile", profile);
+                console.log("profile", profile)
 
-        if (!alreadyUser) {
-          const newUser = await User.create({
-            googleId: profile.id,
-            name: profile.displayName,
-            email: profile.emails[0]?.value,
-          });
+                if (!alreadyUser) {
+                    const newUser = await User.create({
+                        googleId: profile.id,
+                        name: profile.displayName,
+                        email: profile.emails[0]?.value,
+                    });
 
-          done(null, newUser);
-        }
+                    done(null, newUser);
+                }
 
-        done(null, alreadyUser);
-      } catch (error) {
-        console.log(error.message);
-      }
-    },
-  ),
+                done(null, alreadyUser);
+                
+            } catch (error) {
+                console.log(error.message);
+            }
+        },
+    ),
 );
 
 passport.serializeUser((user, done) => {
@@ -47,5 +48,4 @@ passport.serializeUser((user, done) => {
 });
 
 
-
-export default passport;
+export default passport

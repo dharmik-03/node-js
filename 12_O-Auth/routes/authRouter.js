@@ -22,12 +22,10 @@ router.get(
     failureRedirect: "/",
   }),
   (req, res) => {
-    res.redirect("/profile");
+    res.render("profile");
   },
 );
 
-router.get("/profile", (req, res, next) => {
-  res.render("profile", { user: req.user });
-});
+
 
 export default router;
