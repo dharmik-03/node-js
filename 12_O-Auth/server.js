@@ -7,6 +7,7 @@ import httpError from "./middlewares/httpError.js";
 import passport from "./config/passport.js";
 
 import authRouter from "./routes/authRouter.js";
+import ProfileRouter from "./routes/profileRouter.js"
 import session from "express-session";
 
 dotenv.config({ path: "./.env" });
@@ -31,12 +32,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", authRouter);
+app.use("/profile", ProfileRouter);
 
 
 app.set("view engine", "ejs");
 
 app.get("/", (req, res, next) => {
-  res.render("home");
+  res.render("home",{user:req.user});
 });
 
 app.use((req, res, next) => {

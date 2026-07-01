@@ -22,10 +22,18 @@ router.get(
     failureRedirect: "/",
   }),
   (req, res) => {
-    res.render("profile");
+    res.redirect("/profile");
   },
 );
 
+router.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      next(new HttpError("failed to logOut"));
+    }
+  });
 
+  res.redirect("/");
+});
 
 export default router;
