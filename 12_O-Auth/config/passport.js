@@ -8,8 +8,7 @@ import User from "../model/userModel.js";
 dotenv.config({ path: "./.env" });
 
 const googleStrategy = googlePassport.Strategy;
-console.log("CLIENT_ID:", process.env.CLIENT_ID);
-console.log("CLIENT_SECRET:", process.env.CLIENT_SECRET);
+
 
 passport.use(
     new googleStrategy(
