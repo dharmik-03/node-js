@@ -7,7 +7,7 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-// START GOOGLE LOGIN
+
 router.get(
   "/google/login",
   passport.authenticate("google", {
@@ -15,7 +15,7 @@ router.get(
   }),
 );
 
-// GOOGLE CALLBACK
+
 router.get(
   "/google/redirect",
   passport.authenticate("google", {
