@@ -57,4 +57,20 @@ const getAll = async function (req, res, next) {
   }
 };
 
-export default { addUser, GetById, getAll };
+const login = async function (req, res, next) {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findByCredentials(email, password);
+
+    const token = await user.generateAuthToken();
+
+    res
+      .status(200)
+      .json({ success: true, message: "user login succesfully", user, token });
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export default { addUser, GetById, getAll, login };
