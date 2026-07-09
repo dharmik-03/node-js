@@ -99,8 +99,10 @@ UserSchema.methods.generateAuthToken = async function () {
       throw new Error("failed to genarete token");
     }
 
-    user.tokens = user.tokens.concat({ token });
+    
 
+    user.tokens = user.tokens.concat({ token });
+ await user.save();
     return token;
   } catch (error) {
     throw new Error(error.message);

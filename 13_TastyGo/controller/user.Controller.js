@@ -76,13 +76,7 @@ const login = async function (req, res, next) {
 
 const deleteUser = async function (req, res, next) {
   try {
-    const { id } = req.params;
-
-    const user = await User.findById(id);
-
-    if (!user) {
-      throw new httpError("user not found");
-    }
+    const user = req.user;
 
     await user.deleteOne();
 
@@ -94,7 +88,4 @@ const deleteUser = async function (req, res, next) {
   }
 };
 
-
-
-
-export default { addUser, GetById, getAll, login,deleteUser };
+export default { addUser, GetById, getAll, login, deleteUser };

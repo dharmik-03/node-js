@@ -2,15 +2,15 @@ import express from "express";
 import userController from "../controller/user.Controller.js";
 import validate from "../middlewares/validate.js";
 import register from "../validation/UserSchema.js";
-
+import auth from "../middlewares/auth.js";
 const router = express.Router();
 
 router.post("/add", validate(register), userController.addUser);
-router.get("/GetAll", userController.getAll);
+router.get("/GetAll",auth, userController.getAll);
 
-router.get("/login", userController.login);
+router.post("/login", userController.login);
 
 router.get("/:id", userController.GetById);
-router.delete("/:id", userController.deleteUser);
+router.delete("/delete", auth, userController.deleteUser);
 
 export default router;
