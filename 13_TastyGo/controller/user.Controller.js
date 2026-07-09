@@ -1,3 +1,4 @@
+import httpError from "../middlewares/httpError.js";
 import User from "../model/user.model.js";
 
 const addUser = async function (req, res, next) {
@@ -73,4 +74,27 @@ const login = async function (req, res, next) {
   }
 };
 
-export default { addUser, GetById, getAll, login };
+const deleteUser = async function (req, res, next) {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      throw new httpError("user not found");
+    }
+
+    await user.deleteOne();
+
+    res
+      .status(200)
+      .json({ success: true, message: "user delete successfully" });
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
+
+
+export default { addUser, GetById, getAll, login,deleteUser };
