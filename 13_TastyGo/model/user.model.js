@@ -50,6 +50,12 @@ const UserSchema = new mongoose.Schema(
         },
       },
     ],
+    image: {
+      type: String,
+    },
+    cloudinary_id: {
+      type: String
+    }
   },
   {
     timestamps: true,
@@ -99,10 +105,10 @@ UserSchema.methods.generateAuthToken = async function () {
       throw new Error("failed to genarete token");
     }
 
-    
+
 
     user.tokens = user.tokens.concat({ token });
- await user.save();
+    await user.save();
     return token;
   } catch (error) {
     throw new Error(error.message);

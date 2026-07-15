@@ -12,7 +12,7 @@ const auth = async function (req, res, next) {
     }
 
     const token = authHeader.replace("Bearer ", "");
-console.log("Token:", token);
+    console.log("Token:", token);
 
 
     const decoded = JWT.verify(token, process.env.JWT_SECRET);
@@ -29,7 +29,7 @@ console.log("Token:", token);
     req.user = user;
     req.token = token;
 
-    
+
 
     next();
   } catch (error) {
