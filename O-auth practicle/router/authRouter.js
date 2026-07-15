@@ -3,10 +3,9 @@ import passport from "../config/passport.js";
 
 const router = express.Router();
 
-router.get("/login", (req, res) => {
+router.get("/login", (req, res, next) => {
   res.render("login");
 });
-
 
 router.get(
   "/google/login",
@@ -14,7 +13,6 @@ router.get(
     scope: ["profile", "email"],
   }),
 );
-
 
 router.get(
   "/google/redirect",
@@ -29,7 +27,7 @@ router.get(
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) {
-      next(new HttpError("failed to logOut"));
+      next(new Error("failed to logOut"));
     }
   });
 
