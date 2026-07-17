@@ -18,6 +18,6 @@ router.post("/authLogin", auth, userController.authLogin)
 router.post("/logout", auth, userController.logout)
 router.post("/logoutAll", auth, userController.logoutAll)
 router.delete("/delete", auth, userController.deleteUser);
-router.patch("/update", auth, userController.update)
+router.patch("/update", auth, upload.single("image"), userController.update)
 
 export default router;

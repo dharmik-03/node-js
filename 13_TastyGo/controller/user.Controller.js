@@ -124,7 +124,7 @@ const update = async function (req, res, next) {
 
     const update = Object.keys(req.body)
 
-    const allowedField = ["name", "password"]
+    const allowedField = ["name", "password","image"]
 
     const isValid = update.every((f) =>
       allowedField.includes(f)
@@ -139,6 +139,11 @@ const update = async function (req, res, next) {
       user[update] = req.body[update]
     )
 
+    await cloudinary.uploader.destroy(user.cloudinary_id)
+
+    user.image = req.file.path
+    user.cloudinary_id = req.file.filename
+
     await user.save()
 
     res.status(200).json({ success: true, message: "user updated successfully", Data: user })
@@ -151,6 +156,8 @@ const update = async function (req, res, next) {
 const deleteUser = async function (req, res, next) {
   try {
     const user = req.user;
+
+    await cloudinary.uploader.destroy(user.cloudinary_id)
 
     await user.deleteOne();
 
