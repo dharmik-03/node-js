@@ -173,4 +173,6 @@ const deleteUser = async function (req, res, next) {
 
 
 
+
+
 export default { addUser, getAll, login, deleteUser, authLogin, logout, logoutAll, update };
