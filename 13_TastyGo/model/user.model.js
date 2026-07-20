@@ -110,10 +110,33 @@ UserSchema.methods.generateAuthToken = async function () {
     user.tokens = user.tokens.concat({ token });
     await user.save();
     return token;
+
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+UserSchema.methods.toJSON = function () {
+
+  const user = this
+
+  const userObject = user.toObject()
+
+  delete userObject.password
+
+  delete userObject.tokens
+
+  delete userObject.__v
+
+  delete userObject.createdAt
+  
+  delete userObject.updatedAt
+
+
+
+  return userObject
+
+}
 
 const User = mongoose.model("user", UserSchema);
 

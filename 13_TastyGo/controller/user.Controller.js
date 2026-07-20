@@ -124,7 +124,7 @@ const update = async function (req, res, next) {
 
     const update = Object.keys(req.body)
 
-    const allowedField = ["name", "password","image"]
+    const allowedField = ["name", "address", "image", "MobileNumber"]
 
     const isValid = update.every((f) =>
       allowedField.includes(f)
@@ -138,11 +138,14 @@ const update = async function (req, res, next) {
     update.forEach((update) =>
       user[update] = req.body[update]
     )
+    if (req.file) {
+      if (user.cloudinary_id) {
+        await cloudinary.uploader.destroy(user.cloudinary_id);
+      }
 
-    await cloudinary.uploader.destroy(user.cloudinary_id)
-
-    user.image = req.file.path
-    user.cloudinary_id = req.file.filename
+      user.image = req.file.path;
+      user.cloudinary_id = req.file.filename;
+    }
 
     await user.save()
 

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const register = Joi.object({
+export const register = Joi.object({
   name: Joi.string().min(2).max(50).trim().required().messages({
     "string.base": "must be a string",
     "string.min": "minmun 2 character required",
@@ -43,4 +43,13 @@ const register = Joi.object({
     .default("user"),
 });
 
-export default register;
+
+export const updateUserSchema = register
+  .fork(["name", "address", "password", "MobileNumber"], (fields) => fields.optional())
+  .fork(["Role", "email"], (fields) => fields.forbidden())
+  .or("name", "address", "password", "MobileNumber")
+  .messages({
+    "object.missing":
+      "Name, Address, Phone and Password  any one required to update"
+  })
+

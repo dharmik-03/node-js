@@ -1,7 +1,8 @@
 import express from "express";
 import userController from "../controller/user.Controller.js";
 import validate from "../middlewares/validate.js";
-import register from "../validation/UserSchema.js";
+import { register } from "../validation/UserSchema.js";
+import { updateUserSchema } from "../validation/UserSchema.js";
 import auth from "../middlewares/auth.js";
 import checkRole from "../middlewares/checkRole.js"
 
@@ -18,6 +19,6 @@ router.post("/authLogin", auth, userController.authLogin)
 router.post("/logout", auth, userController.logout)
 router.post("/logoutAll", auth, userController.logoutAll)
 router.delete("/delete", auth, userController.deleteUser);
-router.patch("/update", auth, upload.single("image"), userController.update)
+router.patch("/update", auth, validate(updateUserSchema), upload.single("image"), userController.update)
 
 export default router;
