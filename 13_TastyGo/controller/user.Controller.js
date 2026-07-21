@@ -132,6 +132,10 @@ const update = async function (req, res, next) {
 
     const allowedField = ["name", "address", "image", "MobileNumber"]
 
+    if (req.user.Role === "admin") {
+      allowedField = [...allowedField, "isVerified"]
+    }
+
     const isValid = update.every((f) =>
       allowedField.includes(f)
 
