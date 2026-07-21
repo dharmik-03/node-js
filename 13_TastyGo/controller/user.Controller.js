@@ -120,7 +120,13 @@ const logoutAll = async function (req, res, next) {
 const update = async function (req, res, next) {
   try {
 
-    const user = req.user
+    const targetedUser = req.params.id || req.user._id
+
+    const user = await User.findById(targetedUser)
+
+    if (!user) {
+      return next(new httpError("user not found", 404));
+    }
 
     const update = Object.keys(req.body)
 
@@ -158,9 +164,18 @@ const update = async function (req, res, next) {
 
 const deleteUser = async function (req, res, next) {
   try {
-    const user = req.user;
 
-    await cloudinary.uploader.destroy(user.cloudinary_id)
+    const targetUser = req.params.id || req.user._id
+
+    const user = await User.findById(targetUser)
+
+    if (!user) {
+      return next(new httpError("User not found", 404));
+    }
+
+    if (user.cloudinary_id) {
+      await cloudinary.uploader.destroy(user.cloudinary_id);
+    }
 
     await user.deleteOne();
 

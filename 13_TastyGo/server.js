@@ -1,7 +1,8 @@
 import express from "express";
 import httpError from "./middlewares/httpError.js";
 import connectDB from "./config/DB.js";
-import router from "./routes/user.route.js";
+import UserRouter from "./routes/user.route.js";
+import adminRouter from "./routes/admin.route.js"
 
 import dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
@@ -10,7 +11,8 @@ const app = express();
 
 app.use(express.json())
 
-app.use("/user",router)
+app.use("/user", UserRouter)
+app.use("/admin", adminRouter)
 
 app.get("/", (req, res, next) => {
   res.json({ message: "hello from server" });
