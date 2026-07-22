@@ -59,8 +59,16 @@ const UserSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+      toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   },
 );
+
+UserSchema.virtual("restaurant",{
+  ref:"restaurantModel",
+  localField:"_id",
+  foreignField:"Owner"
+})
 
 UserSchema.pre("save", async function () {
   const user = this;
