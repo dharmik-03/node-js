@@ -62,17 +62,13 @@ export const restaurant = Joi.object({
         "any.required": "Closing time is required",
     }),
 
-    Image: Joi.string().required().messages({
+    Image: Joi.string().messages({
         "string.base": "Image must be a string",
         "string.empty": "Image is required",
-        "any.required": "Image is required",
+        // "any.required": "Image is required",
     }),
 
-    cloudinaryId: Joi.string().required().messages({
-        "string.base": "Cloudinary ID must be a string",
-        "string.empty": "Cloudinary ID is required",
-        "any.required": "Cloudinary ID is required",
-    }),
+
 });
 
 

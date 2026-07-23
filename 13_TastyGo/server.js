@@ -4,6 +4,7 @@ import connectDB from "./config/DB.js";
 import UserRouter from "./routes/user.route.js";
 import adminRouter from "./routes/admin.route.js"
 import restaurantRouter from "./routes/restaurant.route.js"
+import restaurantModel from "./model/restaurant.model.js";
 
 import dotenv from "dotenv";
 import User from "./model/user.model.js";
@@ -68,13 +69,12 @@ async function checkOwner() {
 
 
   try {
+    const restaurant = await restaurantModel.findById("6a61e816de5d316d6f01e439").populate("Owner","name email")
+    console.log("restaurant =>",restaurant)
 
-    const owner = await User.findById("6a5efea46c836500c73ecf67").populate("restaurant","RestaurantName")
+    const owner=await User.findById(restaurant.Owner)
 
-    console.log("owner", owner);
-
-
-    // console.log("owner restaurant",owner.restaurant)
+    console.log("owner =>",owner)
 
 
 
@@ -84,3 +84,5 @@ async function checkOwner() {
 }
 
 checkOwner()
+
+
