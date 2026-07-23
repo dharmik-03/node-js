@@ -8,8 +8,8 @@ const restaurantSchema = new mongoose.Schema({
     },
     Owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"user"
-        
+        ref: "user"
+
     },
     Description: {
         type: String,

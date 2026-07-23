@@ -17,7 +17,7 @@ const add = async (req, res, next) => {
             Image: req.file?.path,
             cloudinaryId: req.file?.filename
         })
-        console.log(newRestaurant)
+
 
 
 
