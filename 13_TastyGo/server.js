@@ -69,12 +69,12 @@ async function checkOwner() {
 
 
   try {
-    const restaurant = await restaurantModel.findById("6a61e816de5d316d6f01e439").populate("Owner","name email")
-    console.log("restaurant =>",restaurant)
+    const restaurant = await restaurantModel.findById("6a61e816de5d316d6f01e439").populate("Owner", "name email")
+    console.log("restaurant =>", restaurant)
 
-    const owner=await User.findById(restaurant.Owner)
+    const owner = await User.findById(restaurant.Owner)
 
-    console.log("owner =>",owner)
+    console.log("owner =>", owner)
 
 
 
