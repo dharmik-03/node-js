@@ -76,10 +76,8 @@ async function checkOwner() {
 
     console.log("owner =>", owner)
 
-
-
   } catch (error) {
-
+    return next(new httpError(error.message))
   }
 }
 
