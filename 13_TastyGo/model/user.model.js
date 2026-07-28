@@ -59,15 +59,15 @@ const UserSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-      toJSON: { virtuals: true },
+    toJSON: { virtuals: true },
     toObject: { virtuals: true }
   },
 );
 
-UserSchema.virtual("restaurant",{
-  ref:"restaurantModel",
-  localField:"_id",
-  foreignField:"Owner"
+UserSchema.virtual("restaurant", {
+  ref: "restaurantModel",
+  localField: "_id",
+  foreignField: "Owner"
 })
 
 UserSchema.pre("save", async function () {
@@ -137,7 +137,7 @@ UserSchema.methods.toJSON = function () {
   delete userObject.__v
 
   delete userObject.createdAt
-  
+
   delete userObject.updatedAt
 
 
