@@ -38,4 +38,6 @@ const getAll = async function (req, res, next) {
 }
 
 
+
+
 export default { Add ,getAll}
