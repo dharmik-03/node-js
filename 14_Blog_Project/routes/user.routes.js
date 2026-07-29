@@ -6,5 +6,6 @@ const route = express.Router()
 
 route.post("/add", upload.single("image"),userController.Add)
 route.get("/getAll",userController.getAll)
+route.post("/login",userController.login)
 
 export default route

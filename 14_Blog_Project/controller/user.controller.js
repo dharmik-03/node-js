@@ -6,10 +6,10 @@ const Add = async function (req, res, next) {
     try {
 
 
-        const { name, password, MobileNumber, address, Role } = req.body
+        const { name,email, password, MobileNumber, address, Role } = req.body
 
         const newUser = await User.create({
-            name, password, MobileNumber, address, Role,
+            name, email,password, MobileNumber, address, Role,
             image: req.file?.path,
             cloudinary_id: req.file?.filename
         })
@@ -38,6 +38,22 @@ const getAll = async function (req, res, next) {
 }
 
 
+const login = async function (req, res, next) {
+    try {
+
+        const { email, password } = req.body
+
+        const user = await User.findByCredential(email, password)
+
+        const token =await user.generateAuthToken()
+
+        res.status(200).json({ message: "user loggin successfully", user ,token})
+
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
 
 
-export default { Add ,getAll}
+
+export default { Add, getAll, login }
