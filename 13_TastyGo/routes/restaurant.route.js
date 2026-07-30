@@ -9,5 +9,6 @@ import { restaurant } from "../validation/restaurantSchema.js";
 const router = express.Router()
 
 router.post("/addRestaurant", auth, upload.single("Image"), validate(restaurant), restaurantController.add)
+router.get("/getAllrestaurant", auth, restaurantController.getAllRestaurant)
 
 export default router
