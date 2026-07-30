@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required:true,
+        required: true,
         unique: true
     },
     password: {
@@ -61,6 +61,12 @@ const userSchema = new mongoose.Schema({
         timestamps: true
     })
 
+
+userSchema.virtual("blogs", {
+    ref: "Blog",
+    localField: "_id",
+    foreignField: "author",
+});
 
 userSchema.pre("save", async function () {
 

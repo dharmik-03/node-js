@@ -3,6 +3,7 @@ import httpError from "./middlewares/httpError.js"
 import DBconnect from "./config/DB.js"
 import userRoute from "./routes/user.routes.js"
 import adminRoute from "./routes/admin.routes.js"
+import blogRouter from "./routes/blog.route.js"
 
 import dotenv from "dotenv"
 
@@ -11,8 +12,9 @@ dotenv.config({ path: "./.env" })
 const app = express()
 
 app.use(express.json());
-app.use("/user",userRoute)
-app.use("/admin",adminRoute)
+app.use("/user", userRoute)
+app.use("/admin", adminRoute)
+app.use("/blog", blogRouter)
 
 app.get("/", (req, res, next) => {
     res.json({ message: "hello from server" })
