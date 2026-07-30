@@ -2,6 +2,7 @@ import express from "express"
 import httpError from "./middlewares/httpError.js"
 import DBconnect from "./config/DB.js"
 import userRoute from "./routes/user.routes.js"
+import adminRoute from "./routes/admin.routes.js"
 
 import dotenv from "dotenv"
 
@@ -11,6 +12,7 @@ const app = express()
 
 app.use(express.json());
 app.use("/user",userRoute)
+app.use("/admin",adminRoute)
 
 app.get("/", (req, res, next) => {
     res.json({ message: "hello from server" })
