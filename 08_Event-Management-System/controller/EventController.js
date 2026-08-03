@@ -3,7 +3,7 @@ import event from "../model/eventModel.js";
 import fs from "fs"
 
 import httpError from "../middlewares/httpError.js";
-import { json } from "express";
+
 
 const create = async (req, res, next) => {
   try {
