@@ -86,4 +86,77 @@ const getAllRestaurant = async function (req, res, next) {
 
 }
 
-export default { add,getAllRestaurant }
+const deleteRestaurant = async (req, res, next) => {
+    try {
+        const targetedUser = req.params.id;
+
+        const Restaurant = await restaurantModel.findById(targetedUser);
+
+        if (user.cloudinary_id) {
+            await cloudinary.uploader.destroy(Restaurant.Cloudinary_Id);
+        }
+
+        await Restaurant.deleteOne();
+
+        res
+            .status(200)
+            .json({ success: true, message: "Restaurant data delete successfully" });
+    } catch (error) {
+        next(new httpError(error.message));
+    }
+};
+
+const updateRestaurant = async (req, res, next) => {
+    try {
+        const restaurant = await restaurantModel.findById(req.params.id);
+
+        if (!restaurant) {
+            return next(new httpError("Restaurant not found", 404));
+        }
+
+        const updates = Object.keys(req.body);
+
+        const allowedFields = [
+            "RestaurantName",
+            "Address",
+            "Phone",
+            "description",
+            "state",
+            "city",
+            "openTime",
+            "closeTime",
+        ];
+
+        const isValidUpdate = updates.every((field) =>
+            allowedFields.includes(field),
+        );
+
+        if (!isValidUpdate) {
+            return next(new httpError("Only allowed fields can be updated", 400));
+        }
+        if (req.file) {
+            if (restaurant.cloudinary_id) {
+                await cloudinary.uploader.destroy(restaurant.cloudinary_id);
+            }
+
+            restaurant.Image = req.file.path;
+            restaurant.cloudinary_id = req.file.filename;
+        }
+
+        updates.forEach((field) => {
+            restaurant[field] = req.body[field];
+        });
+
+        await restaurant.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Restaurant updated successfully",
+            restaurant,
+        });
+    } catch (error) {
+        next(new HttpError(error.message, 500));
+    }
+};
+
+export default { add, getAllRestaurant, updateRestaurant, deleteRestaurant }

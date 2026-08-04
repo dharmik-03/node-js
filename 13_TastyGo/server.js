@@ -5,6 +5,7 @@ import UserRouter from "./routes/user.route.js";
 import adminRouter from "./routes/admin.route.js"
 import restaurantRouter from "./routes/restaurant.route.js"
 import restaurantModel from "./model/restaurant.model.js";
+import providerRoute from "./routes/provider.route.js"
 
 import dotenv from "dotenv";
 import User from "./model/user.model.js";
@@ -17,6 +18,7 @@ app.use(express.json())
 app.use("/user", UserRouter)
 app.use("/admin", adminRouter)
 app.use("/restaurant", restaurantRouter)
+app.use("/provider", providerRoute)
 
 app.get("/", (req, res, next) => {
   res.json({ message: "hello from server" });
