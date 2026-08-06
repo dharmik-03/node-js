@@ -6,11 +6,11 @@ import { updateUserSchema } from "../validation/UserSchema.js";
 import auth from "../middlewares/auth.js";
 import checkRole from "../middlewares/checkRole.js"
 
-import upload from "../middlewares/upload.js";
+import {uploadDocument} from "../middlewares/upload.js";
 
 const router = express.Router();
 
-router.post("/add", validate(register), upload.single("image"), userController.addUser);
+router.post("/add", validate(register), uploadDocument.single("image"), userController.addUser);
 router.get("/GetAll", auth, checkRole("admin"), userController.getAll);
 
 router.post("/login", userController.login);
@@ -19,6 +19,6 @@ router.post("/authLogin", auth, userController.authLogin)
 router.post("/logout", auth, userController.logout)
 router.post("/logoutAll", auth, userController.logoutAll)
 router.delete("/delete", auth, userController.deleteUser);
-router.patch("/update", auth, validate(updateUserSchema), upload.single("image"), userController.update)
+router.patch("/update", auth, validate(updateUserSchema), uploadDocument.single("image"), userController.update)
 
 export default router;

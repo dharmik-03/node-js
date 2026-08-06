@@ -10,9 +10,9 @@ const registerAsProvider = async function (req, res, next) {
 
         const existingProvider = await providerModel.findOne({ Providername: req.user._id })
 
-        if (existingProvider) {
-            return next(new httpError("already register as provider", 500))
-        }
+        // if (existingProvider) {
+        //     return next(new httpError("already register as provider", 500))
+        // }
 
         const { restaurants, AccNumber } = req.body
 
