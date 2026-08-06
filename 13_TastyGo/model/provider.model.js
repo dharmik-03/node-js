@@ -1,4 +1,5 @@
 
+
 import mongoose from "mongoose";
 
 const providerSchema = new mongoose.Schema({
@@ -14,16 +15,24 @@ const providerSchema = new mongoose.Schema({
         required: true
 
     }],
+    AccNumber: {
+        type: String,
+        required: true,
+        unique: true
+
+    },
     documents: [
         {
             type: String,
         },
     ],
-    cloudinary_Id: {
-        type: String,
-        required: true
+    cloudinary_Id: [
+        {
+            type: String,
+            required: true
 
-    },
+        }
+    ],
     isVerified: {
         type: Boolean,
     },
