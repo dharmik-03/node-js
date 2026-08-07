@@ -54,22 +54,21 @@ const UserSchema = new mongoose.Schema(
       type: String,
     },
     cloudinary_id: {
-      type: String
-    }
+      type: String,
+    },
   },
   {
     timestamps: true,
     toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+    toObject: { virtuals: true },
   },
 );
 
-UserSchema.virtual("restaurant", {
+UserSchema.virtual("restaurants", {
   ref: "restaurantModel",
   localField: "_id",
-  foreignField: "Owner"
-})
-
+  foreignField: "Owner",
+});
 UserSchema.pre("save", async function () {
   const user = this;
 
@@ -113,38 +112,31 @@ UserSchema.methods.generateAuthToken = async function () {
       throw new Error("failed to genarete token");
     }
 
-
-
     user.tokens = user.tokens.concat({ token });
     await user.save();
     return token;
-
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
 UserSchema.methods.toJSON = function () {
+  const user = this;
 
-  const user = this
+  const userObject = user.toObject();
 
-  const userObject = user.toObject()
+  delete userObject.password;
 
-  delete userObject.password
+  delete userObject.tokens;
 
-  delete userObject.tokens
+  delete userObject.__v;
 
-  delete userObject.__v
+  delete userObject.createdAt;
 
-  delete userObject.createdAt
+  delete userObject.updatedAt;
 
-  delete userObject.updatedAt
-
-
-
-  return userObject
-
-}
+  return userObject;
+};
 
 const User = mongoose.model("user", UserSchema);
 

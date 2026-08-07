@@ -36,48 +36,69 @@ import cloudinary from "../config/cloudinary.js";
 // export default upload
 
 const createUpload = ({
-    folder,
-    formats,
-    mimeTypes = [],
-    transformation,
-    fileSize = 5 * 1024 * 1024,
-    resource_type = "auto",
-
+  folder,
+  formats,
+  mimeTypes = [],
+  transformation,
+  fileSize = 5 * 1024 * 1024,
+  resource_type = "auto",
 }) => {
-    const storage = new CloudinaryStorage({
-        cloudinary,
-        params: async (req, file) => ({
-            folder,
-            allowed_formats: formats,
-            transformation,
-            resource_type
-        })
-    })
+  const storage = new CloudinaryStorage({
+    cloudinary,
+    params: async (req, file) => ({
+      folder,
+      allowed_formats: formats,
+      transformation,
+      resource_type,
+    }),
+  });
 
-    return multer({
-        storage,
-        limits: { fileSize },
-        fileFilter: (req, file, cb) => {
-            const ext = path.extname(file.originalname).toLowerCase();
+  return multer({
+    storage,
+    limits: { fileSize },
+    fileFilter: (req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
 
-            const allowedExt = [".jpg", ".jpeg", ".png", ".pdf"];
+      const allowedExt = [".jpg", ".jpeg", ".png", ".pdf"];
 
-            if (allowedExt.includes(ext)) {
-                return cb(null, true);
-            }
+      if (allowedExt.includes(ext)) {
+        return cb(null, true);
+      }
 
-            return cb(new Error("Only JPG, JPEG, PNG and PDF files are allowed."), false);
-        }
-    });
-}
+      return cb(
+        new Error("Only JPG, JPEG, PNG and PDF files are allowed."),
+        false,
+      );
+    },
+  });
+};
 
-export const uploadDocument = createUpload({
-    folder: "tastyGo/Documents",
-    formats: ["jpg", "jpeg", "png", "pdf"],
-    mimeTypes: ["image/jpg", "image/jpeg", "image/png", "application/pdf"],
-    fileSize: 5 * 1024 * 1024,
-
-    transformation: [{ quality: "auto", fetch_format: "auto" }],
-
+export const profilePic = createUpload({
+  folder: "tastyGo/Profile_Pic",
+  formats: ["jpeg", "jpg", "png", "webp"],
+  mimeTypes: ["image/jpeg", "image/png", "image/jpg", "image/webp"],
+  transformation: [
+    { height: "800", width: "800", crop: "limit" },
+    { fetch_format: "webp" },
+    { quality: "auto" },
+  ],
+});
+export const RestaurantImage = createUpload({
+  folder: "tastyGo/RestaurantImage",
+  transformation: [
+    { height: "800", width: "800", crop: "limit" },
+    { fetch_format: "webp" },
+    { quality: "auto" },
+  ],
+  allowed_formats: ["jpeg", "jpg", "png", "webp"],
+  mimetype: ["image/jpeg", "image/png", "image/jpg", "image/webp"],
 });
 
+export const uploadDocument = createUpload({
+  folder: "tastyGo/Documents",
+  formats: ["jpg", "jpeg", "png", "pdf"],
+  mimeTypes: ["image/jpg", "image/jpeg", "image/png", "application/pdf"],
+  fileSize: 5 * 1024 * 1024,
+
+  transformation: [{ quality: "auto", fetch_format: "auto" }],
+});

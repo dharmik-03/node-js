@@ -39,7 +39,7 @@ export const register = Joi.object({
       "any.required": "Mobile number is required",
     }),
   Role: Joi.string()
-    .valid("user", "provider")
+    .valid("user", "provider",)
     .default("user"),
 });
 

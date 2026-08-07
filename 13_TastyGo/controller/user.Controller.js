@@ -14,7 +14,7 @@ const addUser = async function (req, res, next) {
       MobileNumber,
       Role,
       Image: req.file?.path,
-      cloudinary_id: req.file.filename,
+      cloudinary_id: req.file?.filename,
     };
 
     const SaveToNewuser = new User(newUser);
