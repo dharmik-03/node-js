@@ -3,6 +3,7 @@ import User from "../model/user.model.js";
 import cloudinary from "../config/cloudinary.js";
 import sendMail from "../utils/sendMail.js"
 import welcomeEmail from "../templates/emailtemplate.js"
+import loginEmail from "../templates/loginEmail.js"
 const addUser = async function (req, res, next) {
   try {
     const { name, email, password, address, MobileNumber, Role } = req.body;
@@ -61,6 +62,12 @@ const login = async function (req, res, next) {
     const user = await User.findByCredentials(email, password);
 
     const token = await user.generateAuthToken();
+
+    sendMail({
+      to: user.email,
+      subject: "login email",
+      html: loginEmail(user.name)
+    })
 
     res
       .status(200)

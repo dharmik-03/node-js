@@ -18,7 +18,7 @@ const getAll = async function (req, res, next) {
         }
 
         if (isVerified != undefined) {
-            Query.isVerified = isVerified === true
+            Query.isVerified = isVerified === "true"
         }
 
         const users = await User.find(Query)
