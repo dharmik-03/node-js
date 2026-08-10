@@ -1,7 +1,8 @@
 import httpError from "../middlewares/httpError.js";
 import User from "../model/user.model.js";
 import cloudinary from "../config/cloudinary.js";
-
+import sendMail from "../utils/sendMail.js"
+import welcomeEmail from "../templates/emailtemplate.js"
 const addUser = async function (req, res, next) {
   try {
     const { name, email, password, address, MobileNumber, Role } = req.body;
@@ -20,6 +21,12 @@ const addUser = async function (req, res, next) {
     const SaveToNewuser = new User(newUser);
 
     await SaveToNewuser.save();
+
+    sendMail({
+      to: newUser.email,
+      subject: "welcome email",
+      html: welcomeEmail(newUser.name)
+    })
 
     res
       .status(201)
