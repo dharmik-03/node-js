@@ -40,4 +40,29 @@ const registerAsProvider = async function (req, res, next) {
     }
 }
 
-export default { registerAsProvider }
+
+
+const getAllProviders = async function (req, res, next) {
+    try {
+        const providers = await providerModel
+            .find()
+            .populate("Providername", "name Email Role");
+
+        if (providers.length === 0) {
+            return next(
+                new httpError("No providers found", 404)
+            );
+        }
+
+        res.status(200).json({
+            success: true,
+            count: providers.length,
+            providers
+        });
+
+    } catch (error) {
+        next(new httpError(error.message, 500));
+    }
+};
+
+export default { registerAsProvider, getAllProviders }
