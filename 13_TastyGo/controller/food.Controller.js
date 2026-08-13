@@ -96,6 +96,72 @@ const Delete = async function (req, res, next) {
 };
 
 
+const getAllFood = async (req, res, next) => {
+    try {
+        const {
+            page = 1,
+            limit = 10,
+            search,
+            category,
+            RestaurantName,
+            isAvailable,
+            sort = "createdAt",
+            order = "desc",
+        } = req.query;
+
+        const filter = {};
+
+        if (search) {
+            filter.name = {
+                $regex: search,
+                $options: "i",
+            };
+        }
+
+        if (category) {
+            filter.category = category;
+        }
+
+        if (RestaurantName) {
+            filter.RestaurantName = RestaurantName;
+        }
+
+        if (isAvailable !== undefined) {
+            filter.isAvailable = isAvailable === "true";
+        }
+
+        const totalFood = await food.countDocuments(filter);
+
+        const foods = await food
+            .find(filter)
+            .populate("category")
+            .populate("owner", "name email")
+            .populate("restaurantName")
+            .sort({ [sort]: order === "asc" ? 1 : -1 })
+            .skip((Number(page) - 1) * Number(limit))
+            .limit(Number(limit));
+
+        if (foods.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Food not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Food data found",
+            totalFood,
+            page: Number(page),
+            foods,
+            totalPages: Math.ceil(totalFood / Number(limit)),
+            currentPage: Number(page),
+        });
+    } catch (error) {
+        next(new httpError(error.message, 500));
+    }
+};
 
 
-export default { add }
+
+export default { add, update, Delete, getAllFood }

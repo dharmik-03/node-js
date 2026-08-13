@@ -14,4 +14,22 @@ route.post(
   foodController.add
 );
 
+
+route.get("/allFood", auth, foodController.getAllFood);
+
+route.patch(
+  "/update/:id",
+  auth,
+  checkRole("admin", "provider"),
+  foodImage.array("image", 5),
+  foodController.update,
+);
+
+route.delete(
+  "/delete/:id",
+  auth,
+  checkRole("admin", "provider"),
+  foodController.Delete,
+);
+
 export default route
