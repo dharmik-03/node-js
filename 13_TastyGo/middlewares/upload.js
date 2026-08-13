@@ -102,3 +102,26 @@ export const uploadDocument = createUpload({
 
   transformation: [{ quality: "auto", fetch_format: "auto" }],
 });
+
+
+export const foodImage = createUpload({
+  folder: "tastyGo/food-image",
+  formats: ["jpeg", "jpg", "png", "webp"],
+  mimeTypes: ["image/jpeg", "image/png", "image/jpg", "image/webp"],
+  transformation: [
+    { height: 800, width: 800, crop: "limit" },
+    { fetch_format: "webp" },
+    { quality: "auto" },
+  ],
+});
+
+export const categoryImage = createUpload({
+    folder: "tastyGo/categoryImage",
+    formats: ["jpeg", "jpg", "png", "webp"],
+    mimeTypes: ["image/jpeg", "image/png", "image/jpg", "image/webp"],
+    transformation: [
+        { height: 800, width: 800, crop: "limit" },
+        { fetch_format: "webp" },
+        { quality: "auto" },
+    ],
+});
