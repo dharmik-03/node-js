@@ -7,6 +7,7 @@ import auth from "../middlewares/auth.js";
 import checkRole from "../middlewares/checkRole.js";
 
 import { profilePic } from "../middlewares/upload.js";
+import { authLimiter } from "../middlewares/rateLimit.js";
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.post(
 );
 router.get("/GetAll", auth, checkRole("admin"), userController.getAll);
 
-router.post("/login", userController.login);
+router.post("/login", authLimiter, userController.login);
 router.post("/authLogin", auth, userController.authLogin);
 
 router.post("/logout", auth, userController.logout);
