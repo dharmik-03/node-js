@@ -8,6 +8,7 @@ import restaurantModel from "./model/restaurant.model.js";
 import providerRoute from "./routes/provider.route.js"
 import foodRoute from "./routes/food.route.js"
 import categoryRoute from "./routes/category.route.js"
+import orderRouter from "./routes/order.route.js"
 
 import dotenv from "dotenv";
 import User from "./model/user.model.js";
@@ -23,6 +24,7 @@ app.use("/restaurant", restaurantRouter)
 app.use("/provider", providerRoute)
 app.use("/food", foodRoute)
 app.use("/category", categoryRoute)
+app.use("/order", orderRouter)
 
 app.get("/", (req, res, next) => {
   res.json({ message: "hello from server" });
