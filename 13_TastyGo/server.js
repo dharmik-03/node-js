@@ -14,9 +14,19 @@ import dotenv from "dotenv";
 import User from "./model/user.model.js";
 dotenv.config({ path: "./.env" });
 
+import hpp from "hpp";
+import {rateLimit} from "express-rate-limit";
+import helmet from "helmet";
 const app = express();
 
+
 app.use(express.json())
+
+app.use(helmet());
+
+app.use(rateLimit());
+
+app.use(hpp());
 
 app.use("/user", UserRouter)
 app.use("/admin", adminRouter)
