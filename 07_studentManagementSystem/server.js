@@ -4,8 +4,11 @@ import connectDB from "./config/db.js";
 
 
 import studentRoutes from "./routes/studentRoutes.js";
+import dotenv from "dotenv"
 import cors from "cors"
 
+
+dotenv.config({path:"./.env"})
 
 
 
