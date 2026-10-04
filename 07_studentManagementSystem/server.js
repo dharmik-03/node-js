@@ -4,8 +4,14 @@ import connectDB from "./config/db.js";
 
 
 import studentRoutes from "./routes/studentRoutes.js";
+import cors from "cors"
+
+
+
 
 const app = express();
+
+app.use(cors())
 app.use(express.json())
 app.use("/student", studentRoutes);
 
@@ -36,7 +42,7 @@ async function server() {
     if (!connect) {
       throw new Error("failed to connect DB");
     }
-      
+
     app.listen(port, (err) => {
       if (err) {
         return console.log(err.message);
