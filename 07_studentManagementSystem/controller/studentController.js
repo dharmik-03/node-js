@@ -91,13 +91,17 @@ async function updateManually(req, res, next) {
     const studentFind = await student.findById(id);
 
     if (!studentFind) {
-  return next(new httpError("student not found", 404));
-}
+      return next(new httpError("student not found", 404));
+    }
 
     const updates = Object.keys(req.body);
 
-    const allowedField = ["name", "MobileNumber"];
-
+    const allowedField = [
+      "name",
+      "GRid",
+      "course",
+      "MobileNumber"
+    ];
     const isValidUpdate = updates.every((field) => {
       return allowedField.includes(field);
     });
@@ -107,7 +111,7 @@ async function updateManually(req, res, next) {
     }
 
     updates.forEach((update) => {
-      studentFind[update]= req.body[update];
+      studentFind[update] = req.body[update];
     });
 
     await studentFind.save();
